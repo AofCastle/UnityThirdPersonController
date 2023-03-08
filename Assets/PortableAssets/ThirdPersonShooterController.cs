@@ -9,9 +9,10 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
-    [SerializeField] private LayerMask aimColliderLayerMask=new();
+    [SerializeField] private LayerMask aimColliderLayerMask = new();
 
     [SerializeField] private Transform debugRaycastTransform;
+    [SerializeField] private GameObject vfxGoodHit, vfxBadHit;
 
     private StarterAssetsInputs assetsInputs;
     private ThirdPersonController thirdPersonController;
@@ -25,11 +26,13 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         Vector3 mouseWorldPosition = Vector3.zero;
         Vector2 screenCenterPoint = new(Screen.width / 2f, Screen.height / 2f);
+        Transform hitTransform = null;
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
         {
             debugRaycastTransform.position = raycastHit.point;
-            mouseWorldPosition=raycastHit.point;
+            mouseWorldPosition = raycastHit.point;
+            hitTransform = raycastHit.transform;
         }
 
 
@@ -50,6 +53,30 @@ public class ThirdPersonShooterController : MonoBehaviour
             aimVirtualCamera.gameObject.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivity);
             thirdPersonController.SetRotateOnMove(true);
+        }
+
+        if (assetsInputs.shoot)
+        {
+            if (hitTransform != null)
+            {
+                //Hit something
+                if (hitTransform.GetComponent<BulletTarget>() != null)
+                {
+                    //Hit hittable
+                    Instantiate(vfxGoodHit, debugRaycastTransform.position, hitTransform.rotation);
+                }
+                else
+                {
+                    //Did not hit hittable
+                    Instantiate(vfxBadHit, debugRaycastTransform.position, hitTransform.rotation);
+                }
+            }
+            else
+            {
+                //Hit nothing
+
+            }
+            assetsInputs.shoot = false;
         }
     }
 }
