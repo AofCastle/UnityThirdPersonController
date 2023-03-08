@@ -63,12 +63,12 @@ public class ThirdPersonShooterController : MonoBehaviour
                 if (hitTransform.GetComponent<BulletTarget>() != null)
                 {
                     //Hit hittable
-                    Instantiate(vfxGoodHit, debugRaycastTransform.position, hitTransform.rotation);
+                    Instantiate(vfxGoodHit, debugRaycastTransform.position, Camera.main.transform.rotation);
                 }
                 else
                 {
                     //Did not hit hittable
-                    Instantiate(vfxBadHit, debugRaycastTransform.position, hitTransform.rotation);
+                    Instantiate(vfxBadHit, debugRaycastTransform.position, Camera.main.transform.rotation);
                 }
             }
             else
