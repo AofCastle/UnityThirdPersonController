@@ -1204,6 +1204,7 @@ GameObject:
   - component: {fileID: 1825675764}
   - component: {fileID: 1825675763}
   - component: {fileID: 1825675762}
+  - component: {fileID: 1825675766}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1293,6 +1294,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1825675766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825675761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 704f342dc8e9424418b27790790b0e3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  currentText: {fileID: 0}
+  gunText: {fileID: 0}
+  maxText: {fileID: 0}
 --- !u!1 &1860125085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,10 +1983,22 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1762682266, guid: 59e61435e0bea054ea044696c2ce2ca6, type: 3}
+      propertyPath: maxAmmo
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762682266, guid: 59e61435e0bea054ea044696c2ce2ca6, type: 3}
+      propertyPath: rifleAmmo
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762682266, guid: 59e61435e0bea054ea044696c2ce2ca6, type: 3}
       propertyPath: vfxBadHit
       value: 
       objectReference: {fileID: 3281649985671444870, guid: f840fdab1746282489e5cd6170cd56ad,
         type: 3}
+    - target: {fileID: 1762682266, guid: 59e61435e0bea054ea044696c2ce2ca6, type: 3}
+      propertyPath: pistolAmmo
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1762682266, guid: 59e61435e0bea054ea044696c2ce2ca6, type: 3}
       propertyPath: vfxGoodHit
       value: 

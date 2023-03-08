@@ -9,6 +9,10 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
+
+    [SerializeField] private int maxAmmo, pistolAmmo, rifleAmmo;
+    private int currentAmmo, currentWeaponIndex;
+
     [SerializeField] private LayerMask aimColliderLayerMask = new();
 
     [SerializeField] private Transform debugRaycastTransform;
@@ -21,6 +25,9 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         assetsInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
+
+        currentAmmo = pistolAmmo;
+        currentWeaponIndex = 0;
     }
     private void Update()
     {
@@ -55,7 +62,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             thirdPersonController.SetRotateOnMove(true);
         }
 
-        if (assetsInputs.shoot)
+        if (CanShootWeapon())
         {
             if (hitTransform != null)
             {
@@ -74,9 +81,51 @@ public class ThirdPersonShooterController : MonoBehaviour
             else
             {
                 //Hit nothing
-
             }
-            assetsInputs.shoot = false;
+            currentAmmo--;
+            Debug.Log("Ammo after shooting is " + currentAmmo);
         }
+        assetsInputs.shoot = false;
+
+        if (assetsInputs.reload)
+        {
+            assetsInputs.reload = false;
+            ReloadWeapon(currentWeaponIndex);
+        }
+    }
+
+    private void ReloadWeapon(int weaponIndex)
+    {
+        int bulletsToReload;
+        switch (weaponIndex)
+        {
+            case 1: bulletsToReload = rifleAmmo; 
+                break;
+            default: bulletsToReload = pistolAmmo; 
+                break;
+        }
+        if (currentAmmo < bulletsToReload)//Si tienes menos balas que las que el cargador debería tener
+        {
+            if (bulletsToReload < maxAmmo)//Recarga en función al cargador. El arma aquí no es relevante porque ya se ha decidido
+            {
+                currentAmmo = bulletsToReload;
+                maxAmmo -= bulletsToReload;
+            }
+            else
+            {
+                currentAmmo = maxAmmo;
+                maxAmmo = 0;
+            }
+        }
+    }
+
+    private bool CanShootWeapon()
+    {
+        return assetsInputs.shoot && currentAmmo > 0;
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return currentAmmo;
     }
 }
