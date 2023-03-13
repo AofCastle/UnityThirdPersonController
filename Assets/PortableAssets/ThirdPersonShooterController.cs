@@ -90,14 +90,20 @@ public class ThirdPersonShooterController : MonoBehaviour
         if (assetsInputs.reload)
         {
             assetsInputs.reload = false;
-            ReloadWeapon(currentWeaponIndex);
+            ReloadWeapon();
+        }
+
+        if(assetsInputs.swap)
+        {
+            assetsInputs.swap = false;
+            SwapWeapon();
         }
     }
 
-    private void ReloadWeapon(int weaponIndex)
+    private void ReloadWeapon()
     {
         int bulletsToReload;
-        switch (weaponIndex)
+        switch (currentWeaponIndex)
         {
             case 1:
                 bulletsToReload = rifleAmmo;
@@ -119,6 +125,21 @@ public class ThirdPersonShooterController : MonoBehaviour
                 maxAmmo = 0;
             }
         }
+    }
+
+    private void SwapWeapon()
+    {
+        if (currentWeaponIndex < 1)
+        {
+            currentWeaponIndex = 1;
+        }
+        else
+        {
+            currentWeaponIndex = 0;
+        }
+        maxAmmo += currentAmmo;
+        currentAmmo = 0;
+        ReloadWeapon();
     }
 
     private bool CanShootWeapon()
