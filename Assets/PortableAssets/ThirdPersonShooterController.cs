@@ -99,9 +99,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         int bulletsToReload;
         switch (weaponIndex)
         {
-            case 1: bulletsToReload = rifleAmmo; 
+            case 1:
+                bulletsToReload = rifleAmmo;
                 break;
-            default: bulletsToReload = pistolAmmo; 
+            default:
+                bulletsToReload = pistolAmmo;
                 break;
         }
         if (currentAmmo < bulletsToReload)//Si tienes menos balas que las que el cargador debería tener
@@ -127,5 +129,21 @@ public class ThirdPersonShooterController : MonoBehaviour
     public int GetCurrentAmmo()
     {
         return currentAmmo;
+    }
+
+    public int GetGunAmmo()
+    {
+        switch (currentWeaponIndex)
+        {
+            case 1:
+                return rifleAmmo;
+            default:
+                return pistolAmmo;
+        }
+    }
+
+    public int GetMaxAmmo()
+    {
+        return maxAmmo;
     }
 }
