@@ -85,7 +85,6 @@ public class ThirdPersonShooterController : MonoBehaviour
             currentAmmo--;
             Debug.Log("Ammo after shooting is " + currentAmmo);
         }
-        assetsInputs.shoot = false;
 
         if (assetsInputs.reload)
         {
@@ -144,7 +143,23 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private bool CanShootWeapon()
     {
-        return assetsInputs.shoot && currentAmmo > 0;
+        if (assetsInputs.shoot)
+        {
+            if(currentWeaponIndex < 1)
+            {
+                assetsInputs.shoot = false;
+            }
+            else
+            {
+                assetsInputs.shoot = false;
+                //TODO: comprobar si sigue pulsado el botón y añadir un temporizador para separar los disparos unas décimas de segundo
+            }
+            return currentAmmo > 0;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public int GetCurrentAmmo()
