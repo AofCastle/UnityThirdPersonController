@@ -2562,6 +2562,10 @@ PrefabInstance:
       propertyPath: debugRaycastTransform
       value: 
       objectReference: {fileID: 432910882}
+    - target: {fileID: 1762682266, guid: 59e61435e0bea054ea044696c2ce2ca6, type: 3}
+      propertyPath: timeBetweenRifleBullets
+      value: 0.12
+      objectReference: {fileID: 0}
     - target: {fileID: 6025609196846098338, guid: 59e61435e0bea054ea044696c2ce2ca6,
         type: 3}
       propertyPath: m_Name

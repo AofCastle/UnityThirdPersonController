@@ -11,6 +11,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private float aimSensitivity;
 
     [SerializeField] private int maxAmmo, pistolAmmo, rifleAmmo;
+    [SerializeField] private float timeBetweenRifleBullets;
     private int currentAmmo, currentWeaponIndex;
 
     [SerializeField] private LayerMask aimColliderLayerMask = new();
@@ -18,6 +19,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private Transform debugRaycastTransform;
     [SerializeField] private GameObject vfxGoodHit, vfxBadHit;
 
+    private float lastBulletTimeMark;
     private StarterAssetsInputs assetsInputs;
     private ThirdPersonController thirdPersonController;
 
@@ -28,6 +30,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         currentAmmo = pistolAmmo;
         currentWeaponIndex = 0;
+        lastBulletTimeMark = 0;
     }
     private void Update()
     {
@@ -92,7 +95,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             ReloadWeapon();
         }
 
-        if(assetsInputs.swap)
+        if (assetsInputs.swap)
         {
             assetsInputs.swap = false;
             SwapWeapon();
@@ -145,21 +148,18 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         if (assetsInputs.shoot)
         {
-            if(currentWeaponIndex < 1)
+            if (currentWeaponIndex < 1) //Index 0 = Pistola, Index 1 = Rifle
             {
                 assetsInputs.shoot = false;
+                return currentAmmo > 0;
             }
-            else
+            else if (!(Time.timeSinceLevelLoad - lastBulletTimeMark < timeBetweenRifleBullets))
             {
-                assetsInputs.shoot = false;
-                //TODO: comprobar si sigue pulsado el botón y añadir un temporizador para separar los disparos unas décimas de segundo
+                lastBulletTimeMark = Time.timeSinceLevelLoad;
+                return currentAmmo > 0;
             }
-            return currentAmmo > 0;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public int GetCurrentAmmo()
