@@ -22,11 +22,13 @@ public class ThirdPersonShooterController : MonoBehaviour
     private float lastBulletTimeMark;
     private StarterAssetsInputs assetsInputs;
     private ThirdPersonController thirdPersonController;
+    private Animator animator;
 
     private void Awake()
     {
         assetsInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
+        animator = GetComponent<Animator>();
 
         currentAmmo = pistolAmmo;
         currentWeaponIndex = 0;
@@ -52,6 +54,8 @@ public class ThirdPersonShooterController : MonoBehaviour
             thirdPersonController.SetSensitivity(aimSensitivity);
             thirdPersonController.SetRotateOnMove(false);
 
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 20f));
+
             Vector3 worldAimTarget = mouseWorldPosition;
             worldAimTarget.y = transform.position.y;
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
@@ -63,6 +67,7 @@ public class ThirdPersonShooterController : MonoBehaviour
             aimVirtualCamera.gameObject.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivity);
             thirdPersonController.SetRotateOnMove(true);
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 20f));
         }
 
         if (CanShootWeapon())
